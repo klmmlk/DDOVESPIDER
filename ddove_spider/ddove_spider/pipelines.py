@@ -6,8 +6,10 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from sql_ctr import MySql
 
 
 class DdoveSpiderPipeline:
     def process_item(self, item, spider):
+        MySql.insert_db(item)
         return item
