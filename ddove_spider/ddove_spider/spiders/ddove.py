@@ -10,8 +10,8 @@ from sql_ctr import MySql
 class DdoveSpider(scrapy.Spider):
     name = "ddove"
     allowed_domains = ["ddove.com"]
-    start_urls = ["http://ddove.com/data/list_2__0_0_1__1.0-2.0-3.13_1.html"]  # dwg
-
+    # start_urls = ["http://ddove.com/data/list_2__0_0_1__1.0-2.0-3.13_1.html"]  # dwg
+    start_urls = input('请输入起始地址')
     # start_urls = ["http://ddove.com/data/list_2__0_0_1__1.0-2.0-3.16_1.html"]  # skp
     # start_urls = ["http://ddove.com/data/list_2__0_0_1__1.0-2.0-3.17_1.html"]  # ppt
 

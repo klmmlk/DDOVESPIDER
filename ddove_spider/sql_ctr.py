@@ -1,32 +1,27 @@
-import sqlite3
+from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
+import os
 
-sqldata = sqlite3.connect('data')
-cursor = sqldata.cursor()
+client = MongoClient(os.getenv('mongo'))
+try:
+    # The ping command is cheap and does not require auth.
+    client.admin.command('ping')
+    status = True
+    mydb = client['znzup']
+    table = mydb['ddove']
+except ConnectionFailure:
+    print("连接数据库失败")
+    status = False
 
-print('成功连接数据库')
 
-
-class MySql(object):
+class Mongo:
     @classmethod
-    def insert_db(cls, item):
-        sql = "insert into ddove_table(url_id,title,pic_url,dl_url) values (?,?,?,?)"
-        values = (item["url_id"], item["title"], str(item["pic_url"]), str(item["dl_url"]))
-        cursor.execute(sql, values)
-        sqldata.commit()
-
-    @classmethod
-    def search_db(cls, item):
-        sql = "select url_id from ddove_table where url_id = '%s'" % item
-        return cursor.execute(sql).fetchone()
+    def insert_one(cls, items: dict):
+        if status:
+            return table.insert_one(items)
+        else:
+            return False
 
 
 if __name__ == '__main__':
-    # item = {
-    #     "url_id":'qqq111',
-    #     "title":'大中国',
-    #     "pic_url":str(['123123','sdfsdf']),
-    #     "dl_url":'www.bbbd.com'
-    # }
-    # MySql.insert_db(item)
-    ooo =MySql.search_db('a63742bf4cb304d1')
-    print('a63742bf4cb304d1' in ooo)
+    pass
